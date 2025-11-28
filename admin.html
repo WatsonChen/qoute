@@ -368,93 +368,308 @@
                 </section>
 
                 <!-- New Quote -->
-                <section id="newquote" class="page-section space-y-3">
-                    <div>
-                        <h1 class="text-base font-semibold" data-i18n="newquote.title">新增報價</h1>
-                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="newquote.subtitle">依照步驟輸入需求與成本，讓系統與 AI 協助你產出多版本報價。</p>
-                    </div>
+                <!-- New Quote -->
+<section id="newquote" class="page-section space-y-3">
+  <div>
+    <h1 class="text-base font-semibold" data-i18n="newquote.title">新增報價</h1>
+    <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="newquote.subtitle">
+      依照步驟輸入需求與成本，讓系統與 AI 協助你產出多版本報價。
+    </p>
+  </div>
 
-                    <div class="glass-card px-4 py-3 text-[10px] space-y-3">
-                        <!-- Stepper -->
-                        <div class="flex items-center gap-2">
-                            <div class="flex items-center gap-1">
-                                <div class="h-5 w-5 rounded-full bg-sky-500 text-white flex items-center justify-center text-[9px]">1</div>
-                                <span class="text-xs" data-i18n="newquote.step1">基本資訊</span>
-                            </div>
-                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
-                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">2</div>
-                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
-                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">3</div>
-                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
-                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">4</div>
-                        </div>
+  <div class="glass-card px-4 py-3 text-[10px] space-y-3">
+    <!-- Stepper -->
+    <div class="flex items-center gap-2">
+      <template id="quote-stepper-template">
+        <!-- 用 JS 控制 active 樣式 -->
+      </template>
+      <div class="flex items-center gap-1">
+        <div id="quote-step-dot-1"
+             class="h-5 w-5 rounded-full flex items-center justify-center text-[9px] bg-sky-500 text-white">
+          1
+        </div>
+        <span class="text-xs" data-i18n="newquote.step1">基本資訊</span>
+      </div>
+      <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+      <div id="quote-step-dot-2"
+           class="h-5 w-5 rounded-full flex items-center justify-center text-[9px]"
+           style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+        2
+      </div>
+      <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+      <div id="quote-step-dot-3"
+           class="h-5 w-5 rounded-full flex items-center justify-center text-[9px]"
+           style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+        3
+      </div>
+      <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+      <div id="quote-step-dot-4"
+           class="h-5 w-5 rounded-full flex items-center justify-center text-[9px]"
+           style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+        4
+      </div>
+    </div>
 
-                        <div class="grid grid-cols-[1.2fr,0.8fr] gap-3">
-                            <!-- Form -->
-                            <div class="space-y-2">
-                                <div>
-                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">客戶 Customer</label>
-                                    <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="選擇或輸入客戶名稱"/>
-                                </div>
+    <!-- STEP 1 · 基本資訊 -->
+    <div id="quote-step-1" class="quote-step space-y-3">
+      <div class="grid grid-cols-[1.2fr,0.8fr] gap-3">
+        <!-- Form -->
+        <div class="space-y-2">
+          <div>
+            <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">客戶 Customer</label>
+            <input id="field-customer"
+                   class="w-full rounded-md border px-2 py-1"
+                   style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                   placeholder="選擇或輸入客戶名稱"/>
+          </div>
 
-                                <div>
-                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案名稱 Project</label>
-                                    <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);"/>
-                                </div>
+          <div>
+            <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案名稱 Project</label>
+            <input id="field-project"
+                   class="w-full rounded-md border px-2 py-1"
+                   style="border-color: var(--border-color); background-color: var(--bg-tertiary);"/>
+          </div>
 
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案類型</label>
-                                        <select class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
-                                            <option>官網 Website</option>
-                                            <option>會員系統</option>
-                                            <option>後台系統</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">預估上線時間</label>
-                                        <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="例如 12 週內"/>
-                                    </div>
-                                </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案類型</label>
+              <select id="field-type"
+                      class="w-full rounded-md border px-2 py-1"
+                      style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                <option>官網 Website</option>
+                <option>會員系統</option>
+                <option>後台系統</option>
+                <option>App / 其他</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">預估上線時間</label>
+              <input id="field-timeline"
+                     class="w-full rounded-md border px-2 py-1"
+                     style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                     placeholder="例如 12 週內"/>
+            </div>
+          </div>
 
-                                <div>
-                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">需求摘要 Brief</label>
-                                    <textarea class="w-full rounded-md border px-2 py-1 h-20" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="貼上客戶需求或會議紀錄"></textarea>
-                                    <button class="ai-highlight mt-1.5 inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px]" data-ai-action="brief-analysis" data-i18n="newquote.aiAssist">
-                                        呼叫 AI 拆解需求
-                                    </button>
-                                </div>
-                            </div>
+          <div>
+            <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">需求摘要 Brief</label>
+            <textarea id="field-brief"
+                      class="w-full rounded-md border px-2 py-1 h-20"
+                      style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                      placeholder="貼上客戶需求或會議紀錄"></textarea>
+            <button class="ai-highlight mt-1.5 inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px]"
+                    data-ai-action="brief-analysis" data-i18n="newquote.aiAssist">
+              呼叫 AI 拆解需求
+            </button>
+          </div>
+        </div>
 
-                            <!-- Preview -->
-                            <div class="rounded-lg border p-2 space-y-1.5" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-[10px] font-medium">功能清單預覽（示意）</div>
-                                    <span class="inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px]" style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
-                                        <span class="h-1 w-1 rounded-full bg-emerald-400"></span>
-                                        AI 草稿
-                                    </span>
-                                </div>
+        <!-- Preview -->
+        <div class="rounded-lg border p-2 space-y-1.5"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="flex items-center justify-between">
+            <div class="text-[10px] font-medium">功能清單預覽（示意）</div>
+            <span class="inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px]"
+                  style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
+              <span class="h-1 w-1 rounded-full bg-emerald-400"></span>
+              AI 草稿
+            </span>
+          </div>
+          <ul class="space-y-0.5 text-[10px]" id="brief-preview-list">
+            <li>☑ 會員註冊 / 第三方登入</li>
+            <li>☑ 點數累積與等級制度</li>
+            <li>☑ 優惠券派發與使用紀錄</li>
+            <li style="color: var(--text-tertiary);">□ 行為事件追蹤 / 報表</li>
+          </ul>
+          <div class="text-[10px]" style="color: var(--text-secondary);">
+            預估成本：約 NT$ 196,500 · 建議毛利 25–32%
+          </div>
+        </div>
+      </div>
+    </div>
 
-                                <ul class="space-y-0.5 text-[10px]">
-                                    <li>☑ 會員註冊 / 第三方登入</li>
-                                    <li>☑ 點數累積與等級制度</li>
-                                    <li>☑ 優惠券派發與使用紀錄</li>
-                                    <li style="color: var(--text-tertiary);">□ 行為事件追蹤 / 報表</li>
-                                </ul>
+    <!-- STEP 2 · 功能與工時拆解 -->
+    <div id="quote-step-2" class="quote-step hidden space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="text-xs font-medium">STEP 2 · 功能與工時拆解</div>
+        <button class="ai-highlight inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px]"
+                data-ai-action="scope-suggest">
+          依照 Brief 產生功能草稿
+        </button>
+      </div>
 
-                                <div class="text-[10px]" style="color: var(--text-secondary);">
-                                    預估成本：約 NT$ 196,500 · 建議毛利 25–32%
-                                </div>
-                            </div>
-                        </div>
+      <div class="grid grid-cols-[1.5fr,0.9fr] gap-3">
+        <div class="rounded-lg border overflow-hidden"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="grid grid-cols-5 px-3 py-1.5 text-[10px]"
+               style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
+            <div>功能模組</div>
+            <div>前端 hr</div>
+            <div>後端 hr</div>
+            <div>設計 hr</div>
+            <div>PM hr</div>
+          </div>
+          <div class="divide-y text-[10px]" style="border-color: var(--border-color);">
+            <div class="grid grid-cols-5 px-3 py-1.5" style="background-color: var(--bg-secondary);">
+              <div>會員註冊 / 登入</div>
+              <div>24</div>
+              <div>28</div>
+              <div>8</div>
+              <div>4</div>
+            </div>
+            <div class="grid grid-cols-5 px-3 py-1.5" style="background-color: var(--bg-secondary);">
+              <div>點數與等級</div>
+              <div>20</div>
+              <div>24</div>
+              <div>6</div>
+              <div>4</div>
+            </div>
+            <div class="grid grid-cols-5 px-3 py-1.5" style="background-color: var(--bg-secondary);">
+              <div>優惠券 / 活動</div>
+              <div>18</div>
+              <div>22</div>
+              <div>6</div>
+              <div>4</div>
+            </div>
+          </div>
+        </div>
 
-                        <div class="flex justify-end gap-2 text-[10px]">
-                            <button class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" data-i18n="btn.cancel">取消</button>
-                            <button class="rounded-md bg-gradient-to-r from-sky-500 to-cyan-400 text-white px-2 py-1 font-medium shadow-md shadow-sky-500/30" data-i18n="btn.next">下一步</button>
-                        </div>
-                    </div>
-                </section>
+        <div class="rounded-lg border p-2 space-y-1.5"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="text-xs font-medium">人力成本小計（示意）</div>
+          <div class="text-[10px]" style="color: var(--text-secondary);">
+            前端：62 hr · 後端：74 hr · 設計：20 hr · PM：12 hr
+          </div>
+          <div class="text-[10px]" style="color: var(--text-secondary);">
+            以預設時薪計算，人力成本約 NT$ 182,000。
+          </div>
+          <div class="mt-1 rounded-md px-2 py-1.5 text-[10px]"
+               style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
+            提示：實際產品中可編輯每個 hr、套用不同時薪表。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 · 三種報價方案 -->
+    <div id="quote-step-3" class="quote-step hidden space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="text-xs font-medium">STEP 3 · 報價方案組合</div>
+        <button class="ai-highlight inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px]"
+                data-ai-action="pricing-suggest">
+          由 AI 建議三種報價
+        </button>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 text-[10px]">
+        <div class="rounded-lg border p-3 space-y-1.5"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="text-[10px]" style="color: var(--text-tertiary);">保守方案</div>
+          <div class="text-[13px] font-semibold">NT$ 320,000</div>
+          <div style="color: var(--text-secondary);">預估毛利 22%</div>
+          <p class="mt-1" style="color: var(--text-secondary);">
+            範圍收斂，適合先試水溫或 MVP 專案。
+          </p>
+        </div>
+
+        <div class="rounded-lg border p-3 space-y-1.5"
+             style="border-color: var(--accent-primary); background-color: var(--bg-tertiary); box-shadow: 0 0 0 1px rgba(56,189,248,0.4);">
+          <div class="flex items-center justify-between">
+            <div class="text-[10px]" style="color: var(--accent-primary);">標準方案 · 建議</div>
+            <span class="rounded-full px-1.5 py-0.5 text-[9px]"
+                  style="background-color: var(--accent-primary); color: white;">AI 推薦</span>
+          </div>
+          <div class="text-[13px] font-semibold">NT$ 368,000</div>
+          <div style="color: var(--text-secondary);">預估毛利 28% · 成交率 78%</div>
+          <p class="mt-1" style="color: var(--text-secondary);">
+            含主要報表與通知，適合大多數 B2B 專案。
+          </p>
+        </div>
+
+        <div class="rounded-lg border p-3 space-y-1.5"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="text-[10px]" style="color: var(--text-tertiary);">積極方案</div>
+          <div class="text-[13px] font-semibold">NT$ 412,000</div>
+          <div style="color: var(--text-secondary);">預估毛利 33% · 成交率 52%</div>
+          <p class="mt-1" style="color: var(--text-secondary);">
+            加上更多自動化與報表，適合策略性專案。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 · 匯出與交付 -->
+    <div id="quote-step-4" class="quote-step hidden space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="text-xs font-medium">STEP 4 · 匯出與交付</div>
+        <span class="text-[10px]" style="color: var(--text-tertiary);">
+          Demo 版僅示意最終報價預覽與匯出入口
+        </span>
+      </div>
+
+      <div class="grid grid-cols-[1.4fr,0.8fr] gap-3">
+        <div class="rounded-lg border p-3 space-y-1.5"
+             style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-medium">報價摘要（PDF 預覽示意）</div>
+            <span class="text-[9px]" style="color: var(--text-tertiary);">中 / 英雙語版</span>
+          </div>
+          <div class="text-[10px]" style="color: var(--text-secondary);">
+            客戶：<span id="summary-customer">ABC 科技</span><br>
+            專案：<span id="summary-project">會員系統重構</span><br>
+            專案類型：<span id="summary-type">會員系統</span> · 預估上線：<span id="summary-timeline">12 週</span>
+          </div>
+          <div class="mt-1 text-[10px]" style="color: var(--text-secondary);">
+            建議方案：標準方案 · 報價 NT$ 368,000 · 預估毛利 28%。
+          </div>
+          <div class="mt-1 rounded-md px-2 py-1.5 text-[10px]"
+               style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
+            實際產品可在這裡切換語言、加入付款條款與專案里程碑說明。
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button class="w-full rounded-md bg-gradient-to-r from-sky-500 to-cyan-400 text-white px-2 py-1.5 text-[10px] font-medium shadow-md shadow-sky-500/30"
+                  onclick="alert('Demo 版：這裡會匯出 PDF 或開啟列印預覽。');">
+            匯出 PDF 報價單
+          </button>
+          <button class="w-full rounded-md border px-2 py-1.5 text-[10px]"
+                  style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                  onclick="alert('Demo 版：這裡會複製文字版報價摘要到剪貼簿。');">
+            複製文字版報價摘要
+          </button>
+          <button class="w-full rounded-md border px-2 py-1.5 text-[10px]"
+                  style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                  onclick="alert('Demo 版：這裡會開啟寄信視窗或觸發後端寄信 API。');">
+            送出給客戶（Email / 連結）
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer buttons -->
+    <div class="flex justify-between items-center pt-2 text-[10px]">
+      <button id="quote-prev"
+              class="rounded-md border px-2 py-1"
+              style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+        上一步
+      </button>
+      <div class="flex gap-2">
+        <button class="rounded-md border px-2 py-1"
+                style="border-color: var(--border-color); background-color: var(--bg-tertiary);"
+                data-i18n="btn.cancel">
+          取消
+        </button>
+        <button id="quote-next"
+                class="rounded-md bg-gradient-to-r from-sky-500 to-cyan-400 text-white px-2 py-1 font-medium shadow-md shadow-sky-500/30"
+                data-i18n="btn.next">
+          下一步
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
                 <!-- Customers -->
                 <section id="customers" class="page-section space-y-3">
@@ -693,6 +908,79 @@
                 alert("AI 功能尚未串接。\n實際產品中，這裡會呼叫後端或第三方模型 API，回傳拆解結果 / 建議數據。");
             })
         );
+                // === Quote wizard steps ===
+        let currentQuoteStep = 1;
+        const totalQuoteSteps = 4;
+
+        function setQuoteStep(step) {
+            if (step < 1 || step > totalQuoteSteps) return;
+            currentQuoteStep = step;
+
+            // 顯示 / 隱藏各步內容
+            document.querySelectorAll(".quote-step").forEach((el, index) => {
+                const s = index + 1;
+                el.classList.toggle("hidden", s !== currentQuoteStep);
+            });
+
+            // 更新上方 1~4 圓點樣式
+            for (let i = 1; i <= totalQuoteSteps; i++) {
+                const dot = document.getElementById(`quote-step-dot-${i}`);
+                if (!dot) continue;
+                if (i === currentQuoteStep) {
+                    dot.style.backgroundColor = "var(--accent-primary)";
+                    dot.style.color = "white";
+                } else if (i < currentQuoteStep) {
+                    dot.style.backgroundColor = "var(--bg-tertiary)";
+                    dot.style.color = "var(--accent-primary)";
+                } else {
+                    dot.style.backgroundColor = "var(--bg-tertiary)";
+                    dot.style.color = "var(--text-tertiary)";
+                }
+            }
+
+            // 第一頁不能按上一頁、最後一頁把 Next 文字換成「完成」
+            const prevBtn = document.getElementById("quote-prev");
+            const nextBtn = document.getElementById("quote-next");
+            if (prevBtn) prevBtn.disabled = currentQuoteStep === 1;
+            if (nextBtn) {
+                nextBtn.textContent = currentQuoteStep === totalQuoteSteps ? "完成" : "下一步";
+            }
+
+            // Demo：進入 STEP 4 時，把 STEP1 的欄位帶去 summary
+            if (currentQuoteStep === 4) {
+                const customer = document.getElementById("field-customer")?.value || "ABC 科技";
+                const project = document.getElementById("field-project")?.value || "會員系統重構";
+                const type = document.getElementById("field-type")?.value || "會員系統";
+                const timeline = document.getElementById("field-timeline")?.value || "12 週";
+
+                document.getElementById("summary-customer").textContent = customer;
+                document.getElementById("summary-project").textContent = project;
+                document.getElementById("summary-type").textContent = type;
+                document.getElementById("summary-timeline").textContent = timeline;
+            }
+        }
+
+        // 綁定上下步按鈕
+        const quotePrevBtn = document.getElementById("quote-prev");
+        const quoteNextBtn = document.getElementById("quote-next");
+
+        if (quotePrevBtn && quoteNextBtn) {
+            quotePrevBtn.addEventListener("click", () => {
+                setQuoteStep(currentQuoteStep - 1);
+            });
+
+            quoteNextBtn.addEventListener("click", () => {
+                if (currentQuoteStep === totalQuoteSteps) {
+                    alert("Demo 版：完成整個報價流程。\n實際產品這裡可以儲存草稿或送出審核。");
+                } else {
+                    setQuoteStep(currentQuoteStep + 1);
+                }
+            });
+        }
+
+        // 初始化 wizard 在第 1 步
+        setQuoteStep(1);
+
     </script>
 </body>
 </html>
