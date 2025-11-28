@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeQuote 報價精算師</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        
+        /* Theme variables */
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-tertiary: #9ca3af;
+            --border-color: #e5e7eb;
+            --border-hover: #d1d5db;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --card-shadow: rgba(0, 0, 0, 0.05);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #64748b;
+            --border-color: rgba(148, 163, 184, 0.2);
+            --border-hover: rgba(148, 163, 184, 0.4);
+            --accent-primary: #38bdf8;
+            --accent-secondary: #0ea5e9;
+            --card-shadow: rgba(15, 23, 42, 0.7);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .page-section {
+            display: none;
+        }
+        .page-active {
+            display: block;
+        }
+        
+        .menu-active {
+            background: linear-gradient(to right, rgba(56, 189, 248, 0.15), rgba(59, 130, 246, 0.15));
+            color: var(--accent-primary);
+            font-weight: 600;
+            border-right: 2px solid var(--accent-primary);
+        }
+        
+        .glass-card {
+            background: var(--bg-secondary);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px var(--card-shadow);
+            transition: all 0.2s;
+        }
+        
+        .glass-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 8px 24px var(--card-shadow);
+        }
+        
+        [data-theme="dark"] .glow-bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(56,189,248,0.12), transparent 55%),
+                        radial-gradient(circle at bottom, rgba(129,140,248,0.15), transparent 55%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .ai-highlight {
+            position: relative;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        
+        .ai-highlight::before {
+            content: '⚡';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <div class="relative min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-56 shrink-0 border-r" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="px-4 py-3 border-b flex items-center gap-2" style="border-color: var(--border-color);">
+                <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-sky-400 via-cyan-400 to-indigo-500 flex items-center justify-center text-white text-xs font-semibold shadow-lg shadow-sky-500/30">
+                    CQ
+                </div>
+                <div>
+                    <div class="text-xs font-semibold" data-i18n="app.name">CodeQuote 報價精算師</div>
+                    <div class="text-[10px]" style="color: var(--text-tertiary);" data-i18n="app.sub">報價與專案收益管理</div>
+                </div>
+            </div>
+
+            <nav class="px-2 py-3 text-xs space-y-0.5">
+                <div class="px-2 pb-1 text-[10px] uppercase tracking-wider" style="color: var(--text-tertiary);">Main</div>
+                <button class="menu-btn menu-active w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all" data-target="analytics" data-i18n="nav.analytics">
+                    數據分析 Analytics
+                </button>
+                <button class="menu-btn w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all hover:bg-opacity-10" style="color: var(--text-secondary);" data-target="quotes" data-i18n="nav.quotes">
+                    報價管理 Quotes
+                </button>
+                <button class="menu-btn w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all hover:bg-opacity-10" style="color: var(--text-secondary);" data-target="newquote" data-i18n="nav.newquote">
+                    新增報價 New Quote
+                </button>
+
+                <div class="px-2 pt-3 pb-1 text-[10px] uppercase tracking-wider" style="color: var(--text-tertiary);">Data</div>
+                <button class="menu-btn w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all hover:bg-opacity-10" style="color: var(--text-secondary);" data-target="customers" data-i18n="nav.customers">
+                    客戶管理 Customers
+                </button>
+                <button class="menu-btn w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all hover:bg-opacity-10" style="color: var(--text-secondary);" data-target="settings" data-i18n="nav.settings">
+                    公司與設定 Settings
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top bar -->
+            <header class="h-12 flex items-center justify-between border-b px-5" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex items-center gap-2 text-[10px]" style="color: var(--text-tertiary);">
+                    <span data-i18n="breadcrumb.module">數據與報價中心</span>
+                    <span>/</span>
+                    <span class="font-medium" style="color: var(--text-primary);" data-i18n="breadcrumb.page">數據分析</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <!-- Theme toggle -->
+                    <button id="theme-toggle" class="p-1.5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Lang switch -->
+                    <div class="flex rounded-lg border overflow-hidden text-[10px]" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                        <button id="lang-zh" class="px-2 py-1 font-medium" style="background-color: var(--accent-primary); color: white;">中</button>
+                        <button id="lang-en" class="px-2 py-1" style="color: var(--text-tertiary);">EN</button>
+                    </div>
+
+                    <!-- User -->
+                    <div class="flex items-center gap-2 text-[10px]">
+                        <div class="h-6 w-6 rounded-full bg-gradient-to-br from-sky-500 to-cyan-400 flex items-center justify-center text-[10px] font-semibold text-white">W</div>
+                        <div class="leading-tight">
+                            <div class="font-medium text-[11px]" data-i18n="user.name">王老闆</div>
+                            <div class="text-[9px]" style="color: var(--text-tertiary);" data-i18n="user.role">管理者</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                <!-- Analytics -->
+                <section id="analytics" class="page-section page-active space-y-4">
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <h1 class="text-base font-semibold" data-i18n="analytics.title">數據分析</h1>
+                            <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="analytics.subtitle">檢視報價與專案績效，找出最賺錢的專案類型與客戶。</p>
+                        </div>
+                        <div class="flex items-center gap-1 text-[10px]" style="color: var(--text-tertiary);">
+                            <span class="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                            <span>資料更新：5 分鐘前</span>
+                        </div>
+                    </div>
+
+                    <!-- Metrics -->
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="glass-card px-3 py-2.5 text-[10px]">
+                            <div class="flex items-center justify-between">
+                                <div style="color: var(--text-secondary);" data-i18n="metric.totalQuoted">總報價金額</div>
+                                <span class="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-600">+12%</span>
+                            </div>
+                            <div class="mt-1.5 text-lg font-semibold tracking-tight">NT$ 5.8M</div>
+                            <div class="mt-2 h-6 rounded-md bg-gradient-to-r from-sky-500/30 via-cyan-400/15 to-transparent border border-sky-500/30"></div>
+                        </div>
+
+                        <div class="glass-card px-3 py-2.5 text-[10px]">
+                            <div class="flex items-center justify-between">
+                                <div style="color: var(--text-secondary);" data-i18n="metric.totalWon">成交金額</div>
+                                <span class="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-600">+18%</span>
+                            </div>
+                            <div class="mt-1.5 text-lg font-semibold tracking-tight">NT$ 2.8M</div>
+                            <div class="mt-2 h-6 rounded-md bg-gradient-to-r from-emerald-400/30 via-emerald-300/15 to-transparent border border-emerald-400/30"></div>
+                        </div>
+
+                        <div class="glass-card px-3 py-2.5 text-[10px]">
+                            <div class="flex items-center justify-between">
+                                <div style="color: var(--text-secondary);" data-i18n="metric.grossProfit">毛利總額</div>
+                                <span class="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-600">+22%</span>
+                            </div>
+                            <div class="mt-1.5 text-lg font-semibold tracking-tight">NT$ 0.7M</div>
+                            <div class="mt-2 h-6 rounded-md bg-gradient-to-r from-amber-400/30 via-amber-300/15 to-transparent border border-amber-400/30"></div>
+                        </div>
+
+                        <div class="glass-card px-3 py-2.5 text-[10px]">
+                            <div class="flex items-center justify-between">
+                                <div style="color: var(--text-secondary);" data-i18n="metric.marginRate">平均毛利率</div>
+                                <span class="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-600">+1.2%</span>
+                            </div>
+                            <div class="mt-1.5 text-lg font-semibold tracking-tight">25.2%</div>
+                            <div class="mt-2 h-6 rounded-md bg-gradient-to-r from-fuchsia-400/30 via-sky-400/15 to-transparent border border-fuchsia-400/30"></div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="col-span-2 glass-card px-4 py-3 text-[10px]">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="font-medium text-xs" data-i18n="chart.trendTitle">報價 / 成交趨勢</div>
+                                <div class="text-[9px]" style="color: var(--text-tertiary);">單位：案件數 / 月</div>
+                            </div>
+                            <div class="h-44 rounded-lg border flex items-center justify-center text-[10px]" style="border-color: var(--border-color); background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+                                報價 / 成交 數量折線圖 Placeholder
+                            </div>
+                        </div>
+
+                        <div class="glass-card px-4 py-3 text-[10px] space-y-2">
+                            <div class="flex items-center justify-between font-medium text-xs" data-i18n="chart.typeRankingTitle">專案類型毛利率排行</div>
+
+                            <div class="space-y-2">
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-0.5">
+                                        <span>官網 Website</span><span>40%</span>
+                                    </div>
+                                    <div class="h-1 rounded-full" style="background-color: var(--bg-tertiary);">
+                                        <div class="h-full w-4/5 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-0.5">
+                                        <span>電商 E-Commerce</span><span>35%</span>
+                                    </div>
+                                    <div class="h-1 rounded-full" style="background-color: var(--bg-tertiary);">
+                                        <div class="h-full w-3/4 rounded-full bg-gradient-to-r from-sky-400 to-cyan-300"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-[10px] mb-0.5">
+                                        <span>會員系統</span><span>32%</span>
+                                    </div>
+                                    <div class="h-1 rounded-full" style="background-color: var(--bg-tertiary);">
+                                        <div class="h-full w-2/3 rounded-full bg-gradient-to-r from-indigo-400 to-sky-300"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="ai-highlight mt-2 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px]" data-ai-action="refresh-insight" data-i18n="ai.refresh">
+                                重新產生 AI 建議
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom -->
+                    <div class="grid grid-cols-2 gap-3 text-[10px]">
+                        <div class="glass-card px-4 py-3">
+                            <div class="font-medium text-xs mb-2" data-i18n="table.topProjectsTitle">Top 5 最賺錢專案</div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between border-b pb-1" style="border-color: var(--border-color);">
+                                    <div>電商平台改版 - DEF 零售</div>
+                                    <div class="text-right" style="color: var(--text-secondary);">毛利 NT$ 120K<br/><span class="text-[9px]">(38%)</span></div>
+                                </div>
+                                <div class="flex justify-between border-b pb-1" style="border-color: var(--border-color);">
+                                    <div>會員系統 - ABC 科技</div>
+                                    <div class="text-right" style="color: var(--text-secondary);">毛利 NT$ 85K<br/><span class="text-[9px]">(30%)</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card px-4 py-3 space-y-2">
+                            <div class="font-medium text-xs" data-i18n="table.topCustomersTitle">Top 5 優質客戶</div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between border-b pb-1" style="border-color: var(--border-color);">
+                                    <div>ABC 科技</div>
+                                    <div class="text-right text-[10px]" style="color: var(--text-secondary);">成交率 87%<br/>累計 NT$ 1.85M</div>
+                                </div>
+                                <div class="flex justify-between">
+                                    <div>DEF 零售</div>
+                                    <div class="text-right text-[10px]" style="color: var(--text-secondary);">成交率 75%<br/>累計 NT$ 1.20M</div>
+                                </div>
+                            </div>
+
+                            <div class="ai-highlight mt-2 rounded-lg px-2 py-1.5 text-[10px]" data-i18n="ai.insight">
+                                AI 洞察：本月官網相關專案毛利率最高，其次為電商平台專案。週二與週四發送報價的成交率平均高出其他日 12%。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quotes -->
+                <section id="quotes" class="page-section space-y-3">
+                    <div>
+                        <h1 class="text-base font-semibold" data-i18n="quotes.title">報價管理</h1>
+                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="quotes.subtitle">檢視所有報價狀態，追蹤成交率與跟進節奏。</p>
+                    </div>
+
+                    <div class="glass-card px-3 py-3 text-[10px]">
+                        <div class="flex items-center gap-2 mb-2">
+                            <input type="text" class="w-48 rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="搜尋客戶 / 專案" data-i18n-placeholder="quotes.search"/>
+                            <select class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                                <option>全部狀態</option>
+                                <option>報價中</option>
+                                <option>已成交</option>
+                            </select>
+                            <button class="ml-auto rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" data-i18n="quotes.export">匯出報價紀錄</button>
+                        </div>
+
+                        <div class="border rounded-lg overflow-hidden" style="border-color: var(--border-color);">
+                            <div class="grid grid-cols-6 px-3 py-1.5 text-[10px]" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+                                <div>報價編號</div>
+                                <div>客戶</div>
+                                <div>專案名稱</div>
+                                <div>金額</div>
+                                <div>狀態</div>
+                                <div class="text-right">更新時間</div>
+                            </div>
+
+                            <div class="divide-y text-[10px]" style="border-color: var(--border-color);">
+                                <div class="grid grid-cols-6 px-3 py-1.5 hover:bg-opacity-50" style="background-color: var(--bg-secondary);">
+                                    <div>Q2026-001</div>
+                                    <div>ABC 科技</div>
+                                    <div>會員系統</div>
+                                    <div>NT$ 198K</div>
+                                    <div><span class="rounded-full bg-emerald-500/10 text-emerald-600 px-1.5 py-0.5">已成交</span></div>
+                                    <div class="text-right" style="color: var(--text-tertiary);">2026-01-05</div>
+                                </div>
+
+                                <div class="grid grid-cols-6 px-3 py-1.5 hover:bg-opacity-50" style="background-color: var(--bg-secondary);">
+                                    <div>Q2026-002</div>
+                                    <div>DEF 零售</div>
+                                    <div>電商後台</div>
+                                    <div>NT$ 320K</div>
+                                    <div><span class="rounded-full bg-amber-500/10 text-amber-600 px-1.5 py-0.5">報價中</span></div>
+                                    <div class="text-right" style="color: var(--text-tertiary);">2026-01-08</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- New Quote -->
+                <section id="newquote" class="page-section space-y-3">
+                    <div>
+                        <h1 class="text-base font-semibold" data-i18n="newquote.title">新增報價</h1>
+                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="newquote.subtitle">依照步驟輸入需求與成本，讓系統與 AI 協助你產出多版本報價。</p>
+                    </div>
+
+                    <div class="glass-card px-4 py-3 text-[10px] space-y-3">
+                        <!-- Stepper -->
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1">
+                                <div class="h-5 w-5 rounded-full bg-sky-500 text-white flex items-center justify-center text-[9px]">1</div>
+                                <span class="text-xs" data-i18n="newquote.step1">基本資訊</span>
+                            </div>
+                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">2</div>
+                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">3</div>
+                            <div class="h-px flex-1" style="background-color: var(--border-color);"></div>
+                            <div class="h-5 w-5 rounded-full text-[9px] flex items-center justify-center" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">4</div>
+                        </div>
+
+                        <div class="grid grid-cols-[1.2fr,0.8fr] gap-3">
+                            <!-- Form -->
+                            <div class="space-y-2">
+                                <div>
+                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">客戶 Customer</label>
+                                    <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="選擇或輸入客戶名稱"/>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案名稱 Project</label>
+                                    <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);"/>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">專案類型</label>
+                                        <select class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                                            <option>官網 Website</option>
+                                            <option>會員系統</option>
+                                            <option>後台系統</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">預估上線時間</label>
+                                        <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="例如 12 週內"/>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] mb-0.5" style="color: var(--text-secondary);">需求摘要 Brief</label>
+                                    <textarea class="w-full rounded-md border px-2 py-1 h-20" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="貼上客戶需求或會議紀錄"></textarea>
+                                    <button class="ai-highlight mt-1.5 inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px]" data-ai-action="brief-analysis" data-i18n="newquote.aiAssist">
+                                        呼叫 AI 拆解需求
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Preview -->
+                            <div class="rounded-lg border p-2 space-y-1.5" style="border-color: var(--border-color); background-color: var(--bg-tertiary);">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-[10px] font-medium">功能清單預覽（示意）</div>
+                                    <span class="inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px]" style="background-color: var(--bg-secondary); color: var(--text-tertiary);">
+                                        <span class="h-1 w-1 rounded-full bg-emerald-400"></span>
+                                        AI 草稿
+                                    </span>
+                                </div>
+
+                                <ul class="space-y-0.5 text-[10px]">
+                                    <li>☑ 會員註冊 / 第三方登入</li>
+                                    <li>☑ 點數累積與等級制度</li>
+                                    <li>☑ 優惠券派發與使用紀錄</li>
+                                    <li style="color: var(--text-tertiary);">□ 行為事件追蹤 / 報表</li>
+                                </ul>
+
+                                <div class="text-[10px]" style="color: var(--text-secondary);">
+                                    預估成本：約 NT$ 196,500 · 建議毛利 25–32%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-2 text-[10px]">
+                            <button class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" data-i18n="btn.cancel">取消</button>
+                            <button class="rounded-md bg-gradient-to-r from-sky-500 to-cyan-400 text-white px-2 py-1 font-medium shadow-md shadow-sky-500/30" data-i18n="btn.next">下一步</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Customers -->
+                <section id="customers" class="page-section space-y-3">
+                    <div>
+                        <h1 class="text-base font-semibold" data-i18n="customers.title">客戶管理</h1>
+                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="customers.subtitle">了解每位客戶的成交金額、利潤表現與付款習慣。</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 text-[10px]">
+                        <div class="col-span-2 glass-card px-3 py-3">
+                            <div class="border rounded-lg overflow-hidden" style="border-color: var(--border-color);">
+                                <div class="grid grid-cols-4 px-3 py-1.5 text-[10px]" style="background-color: var(--bg-tertiary); color: var(--text-tertiary);">
+                                    <div>客戶名稱</div>
+                                    <div>專案數</div>
+                                    <div>累計金額</div>
+                                    <div>平均毛利率</div>
+                                </div>
+
+                                <div class="divide-y" style="border-color: var(--border-color);">
+                                    <div class="grid grid-cols-4 px-3 py-1.5 cursor-pointer hover:bg-opacity-50" style="background-color: var(--bg-secondary);">
+                                        <div>ABC 科技</div>
+                                        <div>6</div>
+                                        <div>NT$ 1.85M</div>
+                                        <div>27%</div>
+                                    </div>
+                                    <div class="grid grid-cols-4 px-3 py-1.5 cursor-pointer hover:bg-opacity-50" style="background-color: var(--bg-secondary);">
+                                        <div>DEF 零售</div>
+                                        <div>4</div>
+                                        <div>NT$ 1.20M</div>
+                                        <div>25%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card px-3 py-3 space-y-1.5">
+                            <div class="font-medium text-xs" data-i18n="customers.panelTitle">客戶概覽（範例）</div>
+                            <div class="text-[10px] space-y-0.5" style="color: var(--text-secondary);">
+                                <p>客戶：ABC 科技</p>
+                                <p>最近 12 個月成交 6 筆專案，平均毛利率 27%。</p>
+                            </div>
+                            <div class="ai-highlight mt-1 rounded-md px-2 py-1.5 text-[10px]" data-i18n="customers.aiNote">
+                                AI 小結：此客戶對「會員系統 + CRM 類」專案接受度高，且可接受中高價位，適合作為長期合作夥伴。
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings -->
+                <section id="settings" class="page-section space-y-3">
+                    <div>
+                        <h1 class="text-base font-semibold" data-i18n="settings.title">公司與系統設定</h1>
+                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);" data-i18n="settings.subtitle">管理公司資訊、時薪與預設報價規則。</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-[10px]">
+                        <div class="glass-card px-3 py-3 space-y-1.5">
+                            <div class="font-medium text-xs" data-i18n="settings.company">公司資訊</div>
+                            <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="公司名稱"/>
+                            <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="統一編號 / 發票抬頭"/>
+                            <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="聯絡 Email"/>
+                        </div>
+
+                        <div class="glass-card px-3 py-3 space-y-1.5">
+                            <div class="font-medium text-xs" data-i18n="settings.rate">報價規則與時薪</div>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <input class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="前端時薪 (NT$)"/>
+                                <input class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="後端時薪 (NT$)"/>
+                                <input class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="PM 時薪 (NT$)"/>
+                                <input class="rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="設計時薪 (NT$)"/>
+                            </div>
+                            <input class="w-full rounded-md border px-2 py-1" style="border-color: var(--border-color); background-color: var(--bg-tertiary);" placeholder="預設毛利目標區間，例如 25%–35%"/>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            zh: {
+                "app.name": "CodeQuote 報價精算師",
+                "app.sub": "報價與專案收益管理",
+                "breadcrumb.module": "數據與報價中心",
+                "breadcrumb.page": "數據分析",
+                "analytics.title": "數據分析",
+                "analytics.subtitle": "檢視報價與專案績效，找出最賺錢的專案類型與客戶。",
+                "metric.totalQuoted": "總報價金額",
+                "metric.totalWon": "成交金額",
+                "metric.grossProfit": "毛利總額",
+                "metric.marginRate": "平均毛利率",
+                "chart.trendTitle": "報價 / 成交趨勢",
+                "chart.typeRankingTitle": "專案類型毛利率排行",
+                "table.topProjectsTitle": "Top 5 最賺錢專案",
+                "table.topCustomersTitle": "Top 5 優質客戶",
+                "ai.insight": "AI 洞察：本月官網相關專案毛利率最高，其次為電商平台專案。週二與週四發送報價的成交率平均高出其他日 12%。",
+                "ai.refresh": "重新產生 AI 建議",
+                "nav.analytics": "數據分析 Analytics",
+                "nav.quotes": "報價管理 Quotes",
+                "nav.newquote": "新增報價 New Quote",
+                "nav.customers": "客戶管理 Customers",
+                "nav.settings": "公司與設定 Settings",
+                "user.name": "王老闆",
+                "user.role": "管理者",
+                "quotes.title": "報價管理",
+                "quotes.subtitle": "檢視所有報價狀態，追蹤成交率與跟進節奏。",
+                "quotes.search": "搜尋客戶 / 專案",
+                "quotes.export": "匯出報價紀錄",
+                "newquote.title": "新增報價",
+                "newquote.subtitle": "依照步驟輸入需求與成本，讓系統與 AI 協助你產出多版本報價。",
+                "newquote.step1": "基本資訊",
+                "newquote.aiAssist": "呼叫 AI 拆解需求",
+                "btn.cancel": "取消",
+                "btn.next": "下一步",
+                "customers.title": "客戶管理",
+                "customers.subtitle": "了解每位客戶的成交金額、利潤表現與付款習慣。",
+                "customers.panelTitle": "客戶概覽（範例）",
+                "customers.aiNote": "AI 小結：此客戶對「會員系統 + CRM 類」專案接受度高，且可接受中高價位，適合作為長期合作夥伴。",
+                "settings.title": "公司與系統設定",
+                "settings.subtitle": "管理公司資訊、時薪與預設報價規則。",
+                "settings.company": "公司資訊",
+                "settings.rate": "報價規則與時薪"
+            },
+            en: {
+                "app.name": "CodeQuote Estimator",
+                "app.sub": "Quoting & profitability console",
+                "breadcrumb.module": "Analytics & Quotes Center",
+                "breadcrumb.page": "Analytics",
+                "analytics.title": "Analytics",
+                "analytics.subtitle": "Review quotes and project performance to find the most profitable types and clients.",
+                "metric.totalQuoted": "Total Quoted",
+                "metric.totalWon": "Total Won",
+                "metric.grossProfit": "Gross Profit",
+                "metric.marginRate": "Avg. Margin Rate",
+                "chart.trendTitle": "Quote vs Win Trend",
+                "chart.typeRankingTitle": "Project Type Margin Ranking",
+                "table.topProjectsTitle": "Top 5 Most Profitable Projects",
+                "table.topCustomersTitle": "Top 5 Valuable Clients",
+                "ai.insight": "AI insight: Website projects have the highest margin this month. Quotes sent on Tue & Thu show 12% higher win rate.",
+                "ai.refresh": "Regenerate AI suggestions",
+                "nav.analytics": "Analytics",
+                "nav.quotes": "Quotes",
+                "nav.newquote": "New Quote",
+                "nav.customers": "Customers",
+                "nav.settings": "Settings",
+                "user.name": "Owner",
+                "user.role": "Admin",
+                "quotes.title": "Quotes",
+                "quotes.subtitle": "See all quotes, statuses, and follow-up cadence.",
+                "quotes.search": "Search client / project",
+                "quotes.export": "Export quote records",
+                "newquote.title": "New Quote",
+                "newquote.subtitle": "Follow steps to input requirements; let AI generate quote options.",
+                "newquote.step1": "Basic Info",
+                "newquote.aiAssist": "Ask AI to analyze requirements",
+                "btn.cancel": "Cancel",
+                "btn.next": "Next",
+                "customers.title": "Customers",
+                "customers.subtitle": "Understand each client's revenue, margin and payment behavior.",
+                "customers.panelTitle": "Customer overview (sample)",
+                "customers.aiNote": "AI summary: This client prefers membership / CRM projects. Good for long-term partnership.",
+                "settings.title": "Company & Settings",
+                "settings.subtitle": "Manage company info, hourly rates and default quoting rules.",
+                "settings.company": "Company",
+                "settings.rate": "Quoting rules & rates"
+            }
+        };
+
+        let currentLang = "zh";
+        let currentTheme = "light";
+
+        function applyTranslations(lang) {
+            const dict = translations[lang];
+            document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = dict[el.dataset.i18n] || "");
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+                el.placeholder = dict[el.dataset.i18nPlaceholder] || "";
+            });
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === "light" ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme", currentTheme);
+        }
+
+        // Initial
+        applyTranslations(currentLang);
+
+        // Theme toggle
+        document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
+        // Lang buttons
+        const btnZh = document.getElementById("lang-zh");
+        const btnEn = document.getElementById("lang-en");
+        btnZh.addEventListener("click", () => {
+            currentLang = "zh";
+            btnZh.style.backgroundColor = "var(--accent-primary)";
+            btnZh.style.color = "white";
+            btnEn.style.backgroundColor = "transparent";
+            btnEn.style.color = "var(--text-tertiary)";
+            applyTranslations(currentLang);
+        });
+        btnEn.addEventListener("click", () => {
+            currentLang = "en";
+            btnEn.style.backgroundColor = "var(--accent-primary)";
+            btnEn.style.color = "white";
+            btnZh.style.backgroundColor = "transparent";
+            btnZh.style.color = "var(--text-tertiary)";
+            applyTranslations(currentLang);
+        });
+
+        // Routing
+        const menuBtns = document.querySelectorAll(".menu-btn");
+        const pages = document.querySelectorAll(".page-section");
+        menuBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const target = btn.dataset.target;
+                pages.forEach(p => p.classList.remove("page-active"));
+                document.getElementById(target).classList.add("page-active");
+                menuBtns.forEach(b => b.classList.remove("menu-active"));
+                btn.classList.add("menu-active");
+
+                const breadcrumbKey = btn.dataset.i18n;
+                const dict = translations[currentLang];
+                const crumb = document.querySelector("[data-i18n='breadcrumb.page']");
+                if (breadcrumbKey && dict[breadcrumbKey]) {
+                    crumb.textContent = dict[breadcrumbKey];
+                }
+            });
+        });
+
+        // AI actions
+        document.querySelectorAll("[data-ai-action]").forEach(el =>
+            el.addEventListener("click", (e) => {
+                e.preventDefault();
+                alert("AI 功能尚未串接。\n實際產品中，這裡會呼叫後端或第三方模型 API，回傳拆解結果 / 建議數據。");
+            })
+        );
+    </script>
+</body>
+</html>

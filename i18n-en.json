@@ -1,0 +1,108 @@
+{
+  "hero": {
+    "badge": "AI-Powered Quotation Engine",
+    "title": "CodeQuote<br/>Quotation Estimator",
+    "subtitle": "AI Tool for Software Team Quotation + Profit Management",
+    "description": "From meeting notes to professional quotes in just 3 minutes. AI automatically breaks down requirements, calculates costs, and generates multiple quotation options.",
+    "cta_primary": "Start Free Trial",
+    "cta_secondary": "Watch Demo Video"
+  },
+  "factory": {
+    "title": "CodeQuote Works Like a Quotation Assembly Line",
+    "subtitle": "From requirements to quotes, fully automated workflow",
+    "input": {
+      "title": "Input: Requirements Entry",
+      "description": "Support multiple formats for requirement input",
+      "point1": "Paste meeting notes or conversation logs",
+      "point2": "Upload requirement documents (Word/PDF)",
+      "point3": "Directly describe project requirements"
+    },
+    "processing": {
+      "title": "Processing: AI Analysis & Calculation",
+      "description": "Intelligent analysis and cost estimation",
+      "point1": "AI automatically breaks down feature list",
+      "point2": "Role × Hours cost calculation",
+      "point3": "Risk assessment and buffer suggestions"
+    },
+    "output": {
+      "title": "Output: Multi-Version Quotations",
+      "description": "Professional quotation documents generated instantly",
+      "point1": "Basic / Standard / Premium versions",
+      "point2": "Auto-generate PDF quotations",
+      "point3": "Real-time profit margin preview"
+    }
+  },
+  "pains": {
+    "title": "What Problems Does It Solve?",
+    "subtitle": "Three roles, three major pain points",
+    "p1": {
+      "label": "Scenario 01",
+      "title": "PM / Sales Challenges",
+      "description": "Every time clients send a bunch of requirements, it takes hours to organize, break down, and estimate hours. Quote too high and scare clients away, quote too low and risk losing money. Revising quotation versions back and forth is time-consuming and error-prone."
+    },
+    "p2": {
+      "label": "Scenario 02",
+      "title": "Boss / Finance Concerns",
+      "description": "Took on many projects but don't know which ones are actually profitable. Quotation formats are inconsistent, profit margins are hard to track. Want to control costs but lack real-time data to support decisions."
+    },
+    "p3": {
+      "label": "Scenario 03",
+      "title": "Team-Wide Challenges",
+      "description": "Quotation process lacks standardization, everyone does it differently. Newcomers don't know how to estimate, veterans rely on experience but lack data. Team collaboration efficiency is low, information is scattered everywhere."
+    }
+  },
+  "workflow": {
+    "title": "How It Works",
+    "subtitle": "Four steps to complete professional quotations",
+    "step1": {
+      "title": "Select Client + Create Project",
+      "description": "Choose existing client or add new client data, fill in project name, expected delivery time and other basic information. System automatically loads client's historical quotation records for reference."
+    },
+    "step2": {
+      "title": "Paste Meeting Notes, AI Breaks Down Features",
+      "description": "Directly paste meeting notes with clients or requirement descriptions. AI automatically identifies and breaks down into structured feature lists, including frontend, backend, design and other work items."
+    },
+    "step3": {
+      "title": "Role × Hours Calculate Costs",
+      "description": "Assign roles (frontend engineer, backend engineer, designer, etc.) to each feature and estimate hours. System automatically calculates total cost and suggested selling price based on your configured hourly rates."
+    },
+    "step4": {
+      "title": "AI Generates Three Quotation Plans and Exports",
+      "description": "AI automatically generates Basic, Standard, and Premium quotation plans, each with different feature combinations and prices. Export professional PDF quotations with one click, ready to send to clients."
+    }
+  },
+  "pricing": {
+    "title": "Pricing Plans",
+    "subtitle": "Choose the plan that best fits your team",
+    "internal": {
+      "name": "Internal",
+      "subtitle": "Personal Experimentation",
+      "feature1": "1 project",
+      "feature2": "Basic AI features",
+      "feature3": "PDF export",
+      "cta": "Get Started"
+    },
+    "studio": {
+      "name": "Studio",
+      "subtitle": "Small Teams",
+      "feature1": "Unlimited projects",
+      "feature2": "Advanced AI analysis",
+      "feature3": "Team collaboration",
+      "feature4": "Profit margin dashboard",
+      "cta": "Subscribe Now"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "subtitle": "Large Organizations",
+      "feature1": "All Studio features",
+      "feature2": "Custom integrations",
+      "feature3": "Dedicated support",
+      "feature4": "SLA guarantee",
+      "cta": "Contact Us"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 CodeQuote Quotation Estimator · Concept Page · Not Final Design",
+    "disclaimer": "This page is for internal and partner alignment on product positioning and feature scope. Actual features and interface subject to official release."
+  }
+}
