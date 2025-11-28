@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeQuote 報價精算師 - AI 驅動的軟體報價與毛利控管工具</title>
+    <title>Pear AI 報價精算師 - AI 驅動的軟體報價與毛利控管工具</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -197,12 +197,10 @@
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm">
-                        CQ
-                    </div>
+                    <img src="logo.png" alt="CodeQuote Logo" class="w-20 h-10 rounded-xl object-contain">
                     <div>
-                        <div class="text-sm font-bold text-gray-900" data-i18n="brand.name">CodeQuote 報價精算師</div>
-                        <div class="text-xs text-gray-500" data-i18n="brand.tagline">專為軟體團隊設計的報價與利潤控管系統</div>
+                        <!-- <div class="text-sm font-bold text-gray-900" data-i18n="brand.name">Pear AI</div> -->
+                        <div class="text-xs text-gray-500 hidden md:block" data-i18n="brand.tagline">專為軟體團隊設計的報價與利潤控管系統</div>
                     </div>
                 </div>
 
@@ -232,9 +230,9 @@
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold tracking-wide border border-blue-100" data-i18n="hero.badge">
                         貼上會議紀錄，30 秒看懂這個案子能不能做
                     </div>
-                    <h1 class="text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight" data-i18n="hero.title">
-                        報價不再靠感覺，讓 AI 和數據說明每一個數字。
-                    </h1>
+                        <h1 class="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight mb-6 break-words" data-i18n="hero.title">
+                            報價不再靠感覺，<br>讓 AI 和數據說明每一個數字。
+                        </h1>
                     <p class="text-xl text-gray-600 leading-relaxed max-w-lg" data-i18n="hero.lead">
                         CodeQuote 把「需求、工時、成本與毛利」整理在同一套介面裡。你只要貼上對話紀錄，就能得到清楚的功能拆解與三種可選報價方案。
                     </p>
@@ -252,8 +250,8 @@
                 </div>
 
                 <!-- Right: Detailed Static 3D Dashboard -->
-                <div class="relative h-[600px] w-full flex items-center justify-center perspective-container">
-                    <div class="hero-3d-scene relative w-[650px] h-[450px]">
+                <div class="relative h-[600px] w-full hidden md:flex items-center justify-center perspective-container md:overflow-visible overflow-hidden">
+                    <div class="hero-3d-scene relative w-[650px] h-[450px] transform md:scale-100 origin-center">
                         
                         <!-- Main Dashboard Base -->
                         <div class="absolute inset-0 bg-white rounded-xl layer-base border border-gray-200 flex overflow-hidden">
@@ -782,21 +780,21 @@
         // i18n Logic
         const t = {
             zh: {
-                "brand.name": "CodeQuote 報價精算師",
+                "brand.name": "Pear AI",
                 "brand.tagline": "專為軟體團隊設計的報價與利潤控管系統",
                 "nav.overview": "概覽",
                 "nav.pains": "痛點",
-                "nav.solution": "CodeQuote 能做什麼",
+                "nav.solution": "Pear AI 能做什麼",
                 "nav.cta": "先看看 Demo",
 
                 "hero.badge": "貼上會議紀錄，30 秒看懂這個案子能不能做",
-                "hero.title": "報價不再靠感覺，讓 AI 和數據說明每一個數字。",
-                "hero.lead": "CodeQuote 把「需求、工時、成本與毛利」整理在同一套介面裡。你只要貼上對話紀錄，就能得到清楚的功能拆解與三種可選報價方案。",
+                "hero.title": "報價不再靠感覺，<br>讓 AI 和數據說明每一個數字。",
+                "hero.lead": "Pear AI 把「需求、工時、成本與毛利」整理在同一套介面裡。你只要貼上對話紀錄，就能得到清楚的功能拆解與三種可選報價方案。",
                 "hero.cta.primary": "看看 AI 報價流程 Demo",
                 "hero.cta.secondary": "為什麼我們需要這個工具？",
                 "hero.note": "支援中 / 英雙語報價單，適合軟體公司、接案團隊，以及需要長期維護專案毛利的顧問公司。",
 
-                "story.kicker": "CodeQuote · How it works",
+                "story.kicker": "Pear AI · How it works",
                 "story.title": "從會議紀錄，到三個可選方案，只走四個畫面。",
                 "story.body": "我們刻意把流程收斂在四個步驟：先把案子描述清楚，再讓 AI 拆解需求、估出工時與成本，最後產生多種報價策略。你可以在 demo 裡一邊滾動畫面，一邊講解自己的報價習慣。",
                 "story.s1": "· Step 1：寫清楚案子名稱、客戶與預估時程，讓團隊有共同起點。",
@@ -808,7 +806,7 @@
                 "pains.title": "每一次報價，都像在重新發明一套規則。",
                 "pains.body": "Studio、代理商、產品團隊常見的問題是：每個人心裡都有一套報價公式，但很難被寫下來、分享、持續優化。",
                 "pains.p1.label": "情境 01",
-                "pains.p1.title": "報價要快，但每一次都在猜老闆心中的數字。",
+                "pains.p1.title": "PM / 業務不敢亂報，但又怕報太高嚇跑客戶。",
                 "pains.p1.body": "接到需求後，PM 或業務得先自己估一版，再拿去給技術主管或老闆「過」，常常被改價、改範圍，來回溝通耗掉很多時間。",
                 "pains.p2.label": "情境 02",
                 "pains.p2.title": "成交率跟毛利率之間，很難有「整體視角」。",
@@ -817,9 +815,9 @@
                 "pains.p3.title": "報價邏輯留在某幾個人的腦中，很難轉移。",
                 "pains.p3.body": "新人加入時，只能「口頭教學」怎麼抓工時、如何切換不同報價策略。久了，整個團隊對「什麼叫做好的案子」其實沒有共同語言。",
 
-                "solution.kicker": "CodeQuote 帶來的是什麼",
+                "solution.kicker": "Pear AI 帶來的是什麼",
                 "solution.title": "把「每一次報價」變成可以累積的數據與邏輯。",
-                "solution.body": "CodeQuote 並不是要取代你的經驗，而是把那些經驗變成可視化的流程：從需求拆解、工時估算，到方案組合與成交後回顧。",
+                "solution.body": "Pear AI 並不是要取代你的經驗，而是把那些經驗變成可視化的流程：從需求拆解、工時估算，到方案組合與成交後回顧。",
                 "solution.s1.title": "分步報價流程",
                 "solution.s1.body": "將「收斂需求 → 工時估算 → 產出多版本報價 → 匯出 PDF」拆成清楚步驟，避免遺漏關鍵條件。",
                 "solution.s2.title": "AI 協助拆解與對標",
@@ -828,47 +826,47 @@
                 "solution.s3.body": "用儀表板回顧哪種案型、哪一種方案組合最賺錢，讓「報價策略」可以被調整與傳承。",
             },
             en: {
-                "brand.name": "CodeQuote Estimator",
-                "brand.tagline": "A quoting & profitability console for software teams",
+                "brand.name": "Pear AI Estimator",
+                "brand.tagline": "AI-Powered Quotation & Profit Management for Software Teams",
                 "nav.overview": "Overview",
-                "nav.pains": "Pain points",
-                "nav.solution": "What CodeQuote does",
-                "nav.cta": "Preview the demo",
+                "nav.pains": "Pain Points",
+                "nav.solution": "What Pear AI does",
+                "nav.cta": "See Demo",
 
-                "hero.badge": "Paste meeting notes, see if the project makes sense in 30 seconds.",
-                "hero.title": "Stop pricing from gut feeling. Let AI and data explain every number.",
-                "hero.lead": "CodeQuote brings requirements, hours, cost, and margin into a single workspace. Paste call notes and get a structured breakdown plus three pricing options you can actually defend.",
-                "hero.cta.primary": "Walk through the AI quoting demo",
-                "hero.cta.secondary": "Why do we need this tool?",
-                "hero.note": "Bilingual CN / EN quotes, built for software companies, agencies, and consulting teams that live on project work.",
+                "hero.badge": "Paste meeting notes, get a go/no-go analysis in 30s",
+                "hero.title": "Stop guessing quotes.<br>Let AI and data explain every number.",
+                "hero.lead": "Pear AI brings requirements, hours, cost, and margin into a single workspace. Paste call notes and get a structured breakdown plus three pricing options you can actually defend.",
+                "hero.cta.primary": "Watch AI Workflow Demo",
+                "hero.cta.secondary": "Why do we need this?",
+                "hero.note": "Supports bilingual (EN/ZH) quotes. Perfect for software studios, agencies, and consultancies needing margin control.",
 
-                "story.kicker": "CodeQuote · How it works",
-                "story.title": "From meeting notes to three options in four focused views.",
-                "story.body": "We compress the flow into four steps: describe the project, let AI break down scope, expose effort & cost, then generate strategies. In your demo, you can scroll through while narrating how your own team makes pricing calls.",
-                "story.s1": "· Step 1: Capture client, project name, and rough timeline so everyone starts aligned.",
-                "story.s2": "· Step 2: Paste meeting notes and let AI turn them into a checklist and reminders.",
-                "story.s3": "· Step 3: Use a role × hours table to reveal the cost structure.",
-                "story.s4": "· Step 4: Generate conservative / standard / aggressive options and export PDFs.",
+                "story.kicker": "Pear AI · How it works",
+                "story.title": "From meeting notes to 3 options in just 4 screens.",
+                "story.body": "We condensed the workflow into 4 steps: Define the project, let AI break it down, estimate costs, and generate strategy options. Scroll through the demo to explain your own pricing logic.",
+                "story.s1": "· Step 1: Define project name, client, and timeline to align the team.",
+                "story.s2": "· Step 2: Paste meeting notes, let AI propose feature lists.",
+                "story.s3": "· Step 3: Use Role × Hours table to visualize cost structure.",
+                "story.s4": "· Step 4: Generate Conservative / Standard / Aggressive options & PDF.",
 
-                "pains.kicker": "What teams often feel",
-                "pains.title": "Every quote feels like inventing a new pricing rule.",
-                "pains.body": "Studios, agencies and product teams all share a pattern: everyone has a mental pricing formula, but it rarely gets written down, shared, and improved.",
+                "pains.kicker": "You might feel this way",
+                "pains.title": "Every quote feels like reinventing the wheel.",
+                "pains.body": "Studios, agencies, and product teams often have a pricing formula in their heads, but it's hard to document, share, or optimize.",
                 "pains.p1.label": "Scenario 01",
-                "pains.p1.title": "Quotes need to be fast, but you’re always guessing what the founder has in mind.",
-                "pains.p1.body": "PMs and sales draft a number, then bounce it with tech leads or founders. Prices and scopes change repeatedly, and cycles are slow.",
+                "pains.p1.title": "PMs are afraid to quote, but scared to quote too high.",
+                "pains.p1.body": "PMs or Sales estimate a version, then get it 'reviewed' by the tech lead or boss. It often gets rejected or scoped down, wasting hours in back-and-forth.",
                 "pains.p2.label": "Scenario 02",
-                "pains.p2.title": "It’s hard to see win-rate and margin from a single lens.",
-                "pains.p2.body": "Quotes live in spreadsheets, email threads and chat logs. Reviewing which projects are profitable vs. draining is manual and slow.",
+                "pains.p2.title": "Hard to see the 'Big Picture' of Win Rate vs. Margin.",
+                "pains.p2.body": "Quotes are scattered in Excel, Email, or chats. Reviewing 'which projects make money' requires manual compilation, slowing down strategic decisions.",
                 "pains.p3.label": "Scenario 03",
-                "pains.p3.title": "Pricing logic stays in a few people’s heads and is hard to pass on.",
-                "pains.p3.body": "New joiners learn via oral tradition: how to estimate hours, when to be aggressive vs. conservative. Over time, the team lacks a shared language for what a “good project” looks like.",
+                "pains.p3.title": "Pricing logic stays in a few people's heads.",
+                "pains.p3.body": "New hires can only learn by 'oral tradition'. Over time, the team lacks a common language for 'what makes a good project'.",
 
-                "solution.kicker": "What CodeQuote brings",
-                "solution.title": "Turn every quote into reusable logic and compounding data.",
-                "solution.body": "CodeQuote doesn’t replace your experience. It embeds it into a clear flow — from requirement breakdown and effort estimation to package design and post-win review.",
-                "solution.s1.title": "Step-by-step quoting flow",
-                "solution.s1.body": "Break the process into clear steps: align requirements, estimate efforts, generate multiple options and export PDF quotes without missing key assumptions.",
-                "solution.s2.title": "AI-assisted breakdown & benchmarking",
+                "solution.kicker": "What Pear AI brings",
+                "solution.title": "Turn 'every quote' into accumulated data and logic.",
+                "solution.body": "Pear AI doesn’t replace your experience. It embeds it into a clear flow — from requirement breakdown and effort estimation to package design and post-win review.",
+                "solution.s1.title": "Step-by-step Workflow",
+                "solution.s1.body": "Break down 'Requirements → Estimation → Multi-version Quote → PDF' into clear steps to avoid missing key specs.",
+                "solution.s2.title": "AI Breakdown & Benchmarking",
                 "solution.s2.body": "Paste meeting notes, let AI propose feature lists, surface commonly missed specs, and reference similar historical deals.",
                 "solution.s3.title": "Strategy review over time",
                 "solution.s3.body": "Use the dashboard to see which project types and pricing strategies drive the healthiest margin and win-rates, then refine your playbook.",
@@ -882,7 +880,7 @@
             document.querySelectorAll("[data-i18n]").forEach((el) => {
                 const key = el.dataset.i18n;
                 if (!dict[key]) return;
-                el.textContent = dict[key];
+                el.innerHTML = dict[key];
             });
         }
 

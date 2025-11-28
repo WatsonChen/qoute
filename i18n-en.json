@@ -1,14 +1,14 @@
 {
   "hero": {
     "badge": "AI-Powered Quotation Engine",
-    "title": "CodeQuote<br/>Quotation Estimator",
+    "title": "Pear AI<br/>Quotation Estimator",
     "subtitle": "AI Tool for Software Team Quotation + Profit Management",
     "description": "From meeting notes to professional quotes in just 3 minutes. AI automatically breaks down requirements, calculates costs, and generates multiple quotation options.",
     "cta_primary": "Start Free Trial",
     "cta_secondary": "Watch Demo Video"
   },
   "factory": {
-    "title": "CodeQuote Works Like a Quotation Assembly Line",
+    "title": "Pear AI Works Like a Quotation Assembly Line",
     "subtitle": "From requirements to quotes, fully automated workflow",
     "input": {
       "title": "Input: Requirements Entry",
@@ -102,7 +102,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2026 CodeQuote Quotation Estimator · Concept Page · Not Final Design",
+    "copyright": "© 2026 Pear AI Quotation Estimator · Concept Page · Not Final Design",
     "disclaimer": "This page is for internal and partner alignment on product positioning and feature scope. Actual features and interface subject to official release."
   }
 }
